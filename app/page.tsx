@@ -1,26 +1,14 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
-import { motion } from "framer-motion";
 
-type ParamsType = {
-  alpha_in: number;
-  alpha_out: number;
-  sma: number;
-  e: number;
-  inclination: number;
-  position_angle: number;
-  x_center: number;
-  y_center: number;
-  g1: number;
-  g2: number;
-  weight: number;
-  psf: string;
-  parang1: number;
-  parang2: number;
-  parang3: number;
-  parang4: number;
-};
+import { useState, ChangeEvent, useEffect } from "react";
+import TopNavBar from "../components/TopNavBar";
+import LeftSidebar from "../components/LeftSidebar";
+import MainContent from "../components/MainContent";
+import SavedParameters from "../components/SavedParameters";
+import InfoButton from "../components/InfoButton";
+import { ParamsType } from "../types";
+
 
 const defaultParams: ParamsType = {
   alpha_in: 5,
@@ -44,91 +32,175 @@ const defaultParams: ParamsType = {
 export default function Page() {
   const [params, setParams] = useState<ParamsType>(defaultParams);
   const [imageSrc, setImageSrc] = useState("https://via.placeholder.com/400");
+  const [isLoading, setIsLoading] = useState(false);
+  const [savedParams, setSavedParams] = useState<{ name: string; params: ParamsType }[]>([]);
+  const [paramSetName, setParamSetName] = useState("");
+  const [stars, setStars] = useState<{ top: string; left: string; delay: string }[]>([]);
+  const [hasGeneratedImage, setHasGeneratedImage] = useState(false);
+  const [hasChangedParams, setHasChangedParams] = useState(false);
+  const [lastGeneratedParams, setLastGeneratedParams] = useState<ParamsType | null>(null);
+  const [showNotification, setShowNotification] = useState(false);
+
+  // Generate stars only on client side to prevent hydration errors
+  useEffect(() => {
+    const starArray = [];
+    // Generate 200 stars (twice as many as before)
+    for (let i = 0; i < 200; i++) {
+      starArray.push({
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        delay: `${Math.random() * 5}s`,
+      });
+    }
+    setStars(starArray);
+  }, []);
+
+  // Load saved parameters from localStorage on initial render
+  useEffect(() => {
+    const savedParamsString = localStorage.getItem('savedParameters');
+    if (savedParamsString) {
+      try {
+        const parsed = JSON.parse(savedParamsString);
+        setSavedParams(parsed);
+      } catch (error) {
+        console.error('Failed to parse saved parameters:', error);
+      }
+    }
+  }, []);
+
+  // Check if parameters have changed since last generation
+  useEffect(() => {
+    if (lastGeneratedParams) {
+      // Compare current params with last generated params
+      const paramsChanged = Object.keys(params).some(
+        key => params[key as keyof ParamsType] !== lastGeneratedParams[key as keyof ParamsType]
+      );
+      setHasChangedParams(paramsChanged);
+    }
+  }, [params, lastGeneratedParams]);
+
+  // Auto-hide notification after 2 seconds
+  useEffect(() => {
+    if (showNotification) {
+      const timer = setTimeout(() => {
+        setShowNotification(false);
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [showNotification]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setParams({ ...params, [e.target.name]: e.target.value });
   };
 
-  const generateImage = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/generate-image/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params),
-    });
+  const handleParamSetNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setParamSetName(e.target.value);
+  };
 
-    const blob = await response.blob();
-    const imageUrl = URL.createObjectURL(blob);
-    setImageSrc(imageUrl);
+  const generateImage = async () => {
+    // If we've already generated this image and parameters haven't changed,
+    // show notification instead of regenerating
+    if (hasGeneratedImage && !hasChangedParams) {
+      setShowNotification(true);
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/generate-image/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params),
+      });
+
+      const blob = await response.blob();
+      const imageUrl = URL.createObjectURL(blob);
+      setImageSrc(imageUrl);
+      setHasGeneratedImage(true);
+      setLastGeneratedParams({...params});
+      setHasChangedParams(false);
+    } catch (error) {
+      console.error("Error generating image:", error);
+      // Optionally show an error message to the user
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const saveParameters = () => {
+    // Always include the date and time along with the name
+    const timestamp = new Date().toLocaleString();
+    const name = paramSetName 
+      ? `${paramSetName} - ${timestamp}`
+      : `Parameters ${timestamp}`;
+      
+    const newSavedParams = [{ name, params: { ...params } }, ...savedParams];
+    setSavedParams(newSavedParams);
+    localStorage.setItem('savedParameters', JSON.stringify(newSavedParams));
+    setParamSetName(""); // Clear the input field after saving
+  };
+
+  const loadParameters = (loadedParams: ParamsType) => {
+    setParams(loadedParams);
+    // Set hasChangedParams to true when loading saved parameters
+    setHasChangedParams(true);
+  };
+
+  const deleteParameters = (index: number) => {
+    const newSavedParams = [...savedParams];
+    newSavedParams.splice(index, 1);
+    setSavedParams(newSavedParams);
+    localStorage.setItem('savedParameters', JSON.stringify(newSavedParams));
   };
 
   return (
-    <div className="flex flex-col items-center p-4 text-center">
-      <h1 className="text-2xl font-bold mb-4">Image Generator</h1>
-      <div className="w-96 h-96 border rounded-md flex items-center justify-center bg-gray-100">
-        <motion.img
-          src={imageSrc}
-          alt="Generated"
-          className="rounded-xl shadow-lg max-w-full max-h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        />
+    <main className="relative min-h-screen bg-black overflow-hidden">
+      {/* Star background fills entire page */}
+      <div className="absolute inset-0 overflow-hidden z-0">
+        {stars.map((star, i) => (
+          <div
+            key={i}
+            className="absolute w-[1px] h-[1px] bg-white rounded-full opacity-70"
+            style={{
+              top: star.top,
+              left: star.left,
+              animationDelay: star.delay,
+            }}
+          />
+        ))}
       </div>
-      <button className="mt-6 w-full px-4 py-2 bg-blue-500 text-white rounded" onClick={generateImage}>
-        Generate Image
-      </button>
-      <div className="w-full max-w-2xl p-4 mt-6 border rounded-md shadow">
-        <div className="flex flex-col gap-6">
-          <Section title="Disk Parameters">
-            {["alpha_in", "alpha_out", "sma", "e", "inclination", "position_angle", "x_center", "y_center"].map((key) => (
-              <InputField key={key} name={key} value={params[key as keyof ParamsType]} onChange={handleChange} />
-            ))}
-          </Section>
 
-          <Section title="SPF Parameters">
-            {["g1", "g2", "weight"].map((key) => (
-              <InputField key={key} name={key} value={params[key as keyof ParamsType]} onChange={handleChange} />
-            ))}
-          </Section>
+      {/* Top navigation (if you have one) */}
+      <TopNavBar />
 
-          <Section title="PSF Choice">
-            <select id="psf" name="psf" value={params.psf} onChange={handleChange} className="border p-2 rounded">
-              <option value="NIRCAM 300FM">NIRCAM 300FM</option>
-              <option value="NIRCAM 360FM">NIRCAM 360FM</option>
-              <option value="NONE">NONE</option>
-            </select>
-          </Section>
+      {/* Floating left sidebar */}
+      <LeftSidebar 
+        params={params} 
+        onChange={handleChange} 
+        onSave={saveParameters}
+        paramSetName={paramSetName}
+        onParamSetNameChange={handleParamSetNameChange}
+      />
 
-          <Section title="Parallactic Angles">
-            {["parang1", "parang2", "parang3", "parang4"].map((key) => (
-              <InputField key={key} name={key} value={params[key as keyof ParamsType]} onChange={handleChange} />
-            ))}
-          </Section>
-        </div>
-      </div>
-    </div>
+      {/* Centered main content */}
+      <MainContent
+        imageSrc={imageSrc}
+        onGenerate={generateImage}
+        isLoading={isLoading}
+        hasGeneratedImage={hasGeneratedImage}
+        hasChangedParams={hasChangedParams}
+        showNotification={showNotification}
+      />
+
+      {/* Right-side saved parameters */}
+      <SavedParameters 
+        savedParams={savedParams} 
+        onSelect={loadParameters}
+        onDelete={deleteParameters}
+      />
+
+      <InfoButton />
+    </main>
   );
 }
-
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div>
-    <h2 className="text-xl font-semibold mb-2">{title}</h2>
-    <div className="flex justify-center gap-4 flex-wrap">{children}</div>
-  </div>
-);
-
-const InputField = ({
-  name,
-  value,
-  onChange,
-}: {
-  name: string;
-  value: number | string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}) => (
-  <div className="flex flex-col items-center">
-    <label htmlFor={name} className="block font-medium text-center">
-      {name.replace("_", " ")}
-    </label>
-    <input id={name} name={name} type="text" value={value} onChange={onChange} className="border p-2 rounded text-center" />
-  </div>
-);

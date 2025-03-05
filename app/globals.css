@@ -1,26 +1,144 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #000000;
+  --foreground: #FFFFFF;
+  --navy: #14213D;
+  --orange: #FCA311;
+  --grey: #E5E5E5;
+  --purple: #2E1A47;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Space background animation for dots */
+@keyframes twinkle {
+  0% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.2; }
+}
+
+/* Apply animation to the star-like dots */
+.bg-white {
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+/* Special star animations */
+@keyframes twinkleStar {
+  0% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.4; transform: scale(1); }
+}
+
+.special-star {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+  filter: blur(1px);
+  z-index: 1;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.7);
+  animation: twinkleStar 5s infinite ease-in-out;
+}
+
+.star-1 {
+  width: 12px;
+  height: 12px;
+  top: 15%;
+  left: 85%;
+  animation-delay: 0s;
+}
+
+.star-2 {
+  width: 8px;
+  height: 8px;
+  top: 25%;
+  left: 15%;
+  animation-delay: 1s;
+}
+
+.star-3 {
+  width: 14px;
+  height: 14px;
+  top: 75%;
+  left: 75%;
+  animation-delay: 2s;
+}
+
+.star-4 {
+  width: 10px;
+  height: 10px;
+  top: 65%;
+  left: 30%;
+  animation-delay: 3s;
+}
+
+.star-5 {
+  width: 16px;
+  height: 16px;
+  top: 45%;
+  left: 55%;
+  animation-delay: 4s;
+}
+
+/* SizedBox styling */
+.sized-box {
+  @apply rounded-lg border border-gray-700 bg-opacity-30 backdrop-blur-sm shadow-lg;
+  background-color: rgba(46, 26, 71, 0.6);
+  transition: all 0.3s ease;
+}
+
+.sized-box:hover {
+  @apply border-gray-500;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Input field styling */
+.input-field {
+  @apply bg-navy border border-gray-700 rounded p-2 text-white focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange;
+  transition: all 0.2s ease;
+}
+
+/* Button styling */
+.btn-primary {
+  @apply bg-orange text-white px-4 py-2 rounded-full shadow-lg hover:bg-opacity-90 transition-all;
+}
+
+.btn-secondary {
+  @apply bg-navy text-white px-4 py-2 rounded shadow-md hover:bg-opacity-90 transition-all;
+}
+
+/* Sidebar scroll styling */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--orange) var(--navy);
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: var(--navy);
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--orange);
+  border-radius: 6px;
+}
+
+/* Card container styling */
+.card-container {
+  @apply p-4 rounded-lg shadow-lg;
+  background: linear-gradient(145deg, rgba(46, 26, 71, 0.8), rgba(20, 33, 61, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
