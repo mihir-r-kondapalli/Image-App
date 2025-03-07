@@ -5,7 +5,6 @@ import TopNavBar from '../../components/TopNavBar';
 import Masonry from 'react-masonry-css';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
-import Image from "next/image";
 
 const imageData = [
   {
@@ -127,7 +126,7 @@ export default function ComparisonPage() {
               onClick={() => openModal(image)}
             >
               <div className="relative">
-                <Image 
+                <img 
                   src={image.src} 
                   alt={image.title} 
                   className="w-full h-auto"
