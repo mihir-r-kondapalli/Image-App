@@ -13,6 +13,7 @@ from matplotlib import cm
 import jax.numpy as jnp
 from .objective_functions import Parameter_Index, objective_model
 from .SLD_utils import DoubleHenyeyGreenstein_SPF, DustEllipticalDistribution2PowerLaws, Winnie_PSF
+from .new_SLD_utils import EMP_PSF
 from .SLD_ojax import ScatteredLightDisk
 
 x1 = 0
@@ -84,7 +85,10 @@ def get_image(alpha_in, alpha_out, sma, e, inclination, position_angle, x_center
     misc_params['nx'] = 500
     misc_params['ny'] = 500
 
-    if psf_params != None:
+    if psf == "EMPIRICAL":
+        img = objective_model(disk_params, spf_params, EMP_PSF.params, misc_params,
+                                ScatteredLightDisk, DustEllipticalDistribution2PowerLaws, DoubleHenyeyGreenstein_SPF, EMP_PSF)
+    elif psf_params != None:
         img = objective_model(disk_params, spf_params, psf_params, misc_params,
                                 ScatteredLightDisk, DustEllipticalDistribution2PowerLaws, DoubleHenyeyGreenstein_SPF, Winnie_PSF)
     else:

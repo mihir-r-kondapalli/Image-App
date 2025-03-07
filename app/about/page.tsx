@@ -21,17 +21,18 @@ export default function AboutPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-orange-500">
               About Project Title
             </h1>
-            <p className="text-lg text-gray-300 mb-8">
-              Hi guys my name is mihir and I like space and stuff. This is an app to generate special images of my friend James.
-            </p>
             <div className="flex flex-wrap gap-4">
               <div className="bg-[#2E1A47]/60 backdrop-blur-sm p-4 rounded-lg">
                 <h3 className="text-xl font-semibold mb-2">Image Generation</h3>
-                <p className="text-gray-300">ML-based image generation of James' *******</p>
+                <p className="text-gray-300">Jax Optimized Model of Dust Debri Scattered Light Disks</p>
               </div>
               <div className="bg-[#2E1A47]/60 backdrop-blur-sm p-4 rounded-lg">
-                <h3 className="text-xl font-semibold mb-2">Comparison</h3>
-                <p className="text-gray-300">I like to compare the different images</p>
+                <h3 className="text-xl font-semibold mb-2">Purpose</h3>
+                <p className="text-gray-300">This project accelerates runtime by about 40x for JWST images and 64x for
+                  static PSF images, increases accuracy, and allows for concrete differentiation of model generation.
+                  This allows researchers to expand the amount of parameters they can fit thereby increasing their knowledge
+                  of these incredibly important phenomena. 
+                </p>
               </div>
             </div>
           </div>
@@ -40,9 +41,9 @@ export default function AboutPage() {
             {isMounted && (
               <div className="relative w-[300px] h-[300px] mx-auto">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-orange-500 rounded-full blur-xl opacity-30"></div>
-                <div className="relative overflow-hidden rounded-full border-4 border-white/20 shadow-xl">
+                <div className="relative overflow-hidden border-4 border-white/20 shadow-xl">
                   <Image 
-                    src="/mihir.png" 
+                    src="/noirlab2014a.jpg"
                     alt="Mihir" 
                     width={300} 
                     height={300}
@@ -57,7 +58,7 @@ export default function AboutPage() {
       
       <div className="bg-[#14213D]/80 backdrop-blur-sm py-16 mt-12">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center text-foreground">References</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center text-foreground">Github Repository</h2>
 
          {/* reference 1*/}
           <a 
@@ -70,7 +71,6 @@ export default function AboutPage() {
             <h3 className="text-xl font-semibold mb-2 text-foreground">
               UCSB Exoplanet Polarimetry Lab
             </h3>
-            <p className="text-gray-300 mb-4">Maxwell Millar-Blanchaer</p>
             <div className="mt-4 pt-4 border-t border-white/10">
               <p className="text-gray-300 text-sm">
               GRaTeR-JAX is a JAX-based implementation of the Generalized Radial Transporter (GRaTeR) framework, designed for modeling scattered light disks around exoplanets. This repository provides tools for forward modeling, optimization, and parameter estimation of scattered light disk images using JAX's accelerated computations.
@@ -84,10 +84,13 @@ export default function AboutPage() {
       </div>
 
       
-      <div className="bg-[#0B0B0B] py-8 mt-12">
+      <div className="bg-[#0B0B0B] py-8 mt-7">
         <div className="container mx-auto px-4 text-center">
           <p className="text-gray-400">
-            Footer Text Goes Here • Copyright © 2025
+            Made By: Mihir Kondapalli
+          </p>
+          <p className="text-gray-400">
+            Email: mihir.kondapalli@gmail.com
           </p>
         </div>
       </div>

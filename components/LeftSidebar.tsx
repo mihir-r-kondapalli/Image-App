@@ -18,6 +18,10 @@ const LeftSidebar = ({ params, onChange, onSave, paramSetName, onParamSetNameCha
     setAllSectionsExpanded(!allSectionsExpanded);
   };
 
+  const nameMap: { [key: string]: string } = {
+    e: "eccentricity",
+  };
+
   return (
     <aside className="
       absolute
@@ -50,7 +54,7 @@ const LeftSidebar = ({ params, onChange, onSave, paramSetName, onParamSetNameCha
           {["alpha_in", "alpha_out", "sma", "e", "inclination", "position_angle", "x_center", "y_center"].map((key) => (
             <InputField 
               key={key} 
-              name={key} 
+              name={nameMap[key] || key}
               value={params[key as keyof ParamsType]} 
               onChange={onChange} 
               dark
@@ -78,13 +82,14 @@ const LeftSidebar = ({ params, onChange, onSave, paramSetName, onParamSetNameCha
             onChange={onChange} 
             className="input-field w-full bg-[#2E1A47] border border-white/20 rounded-lg"
           >
-            <option value="NIRCAM 300FM">NIRCAM 300FM</option>
-            <option value="NIRCAM 360FM">NIRCAM 360FM</option>
+            <option value="NIRCAM 300FM">JWST NIRCAM 300FM</option>
+            <option value="NIRCAM 360FM">JWST NIRCAM 360FM</option>
+            <option value="EMPIRICAL">EMPIRICAL</option>
             <option value="NONE">NONE</option>
           </select>
         </Section>
 
-        <Section title="Parallactic Angles" forceExpanded={allSectionsExpanded}>
+        <Section title="Parallactic Angles (JWST only)" forceExpanded={allSectionsExpanded}>
           {["parang1", "parang2", "parang3", "parang4"].map((key) => (
             <InputField 
               key={key} 

@@ -10,49 +10,63 @@ const imageData = [
   {
     id: 1,
     src: 'FitResults/hd106906_H_pol.png',
-    title: 'Title: hd106906_H_pol.png',
+    title: 'Title: hd106906_H_pol',
     caption: 'Caption goes here',
     description: 'Description goes here'
   },
   {
     id: 2,
     src: 'FitResults/hd111161_H_pol.png',
-    title: 'Title: hd111161_H_pol.png',
+    title: 'Title: hd111161_H_pol',
     caption: 'Caption goes here',
     description: 'Description goes here'
   },
   {
     id: 3,
     src: 'FitResults/hd111520_H_pol.png',
-    title: 'Title: hd111520_H_pol.png',
+    title: 'Title: hd111520_H_pol',
     caption: 'Caption goes here',
     description: 'Description goes here'
   },
   {
     id: 4,
     src: 'FitResults/hd114082_H_pol.png',
-    title: 'Title: hd114082_H_pol.png',
+    title: 'Title: hd114082_H_pol',
     caption: 'Caption goes here',
     description: 'Description goes here'
   },
   {
     id: 5,
     src: 'FitResults/hd145560_H_pol.png',
-    title: 'Title: hd145560_H_pol.png',
+    title: 'Title: hd145560_H_pol',
     caption: 'Caption goes here',
     description: 'Description goes here'
   },
   {
     id: 6,
     src: 'FitResults/hd157587_H_pol.png',
-    title: 'Title: hd157587_H_pol.png',
+    title: 'Title: hd157587_H_pol',
     caption: 'Caption goes here',
     description: 'Description goes here'
   },
   {
     id: 7,
     src: 'FitResults/hd30447_H_pol.png',
-    title: 'Title: hd30447_H_pol.png',
+    title: 'Title: hd30447_H_pol',
+    caption: 'Caption goes here',
+    description: 'Description goes here'
+  },
+  {
+    id: 8,
+    src: 'FitResults/hd146897_H_pol.png',
+    title: 'Title: hd146897_H_po',
+    caption: 'Caption goes here',
+    description: 'Description goes here'
+  },
+  {
+    id: 9,
+    src: 'FitResults/hr7012_H_pol.png',
+    title: 'Title: hr7012_H_pol',
     caption: 'Caption goes here',
     description: 'Description goes here'
   }
@@ -98,7 +112,7 @@ export default function ComparisonPage() {
     <main className="min-h-screen bg-black text-white pt-20 pb-10">
       <TopNavBar />
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8 text-center">Fit Results</h1>
+        <h1 className="text-3xl font-bold mb-8 text-center">Some Disk Fit Results</h1>
         
         <Masonry
           breakpointCols={breakpointColumnsObj}
@@ -126,6 +140,12 @@ export default function ComparisonPage() {
             </div>
           ))}
         </Masonry>
+
+        <p className="text-xl color-gray mb-8 text-center"> These are real astronomical images
+          that are fit using gradient-descent optimization methods using forward modeling and
+          PSF subtraction algorithms. Previous modeling efforts only fit for about 4-5 parameters.
+          With this new framework, over 20 parameters are being fit.
+        </p>
         
         {selectedImage && (
           <div 

@@ -57,15 +57,15 @@ const InfoButton = () => {
               How to Use This App
             </h2>
             <p className="mb-4">
-              This application lets you generate simulated astrophysical images 
-              by adjusting parameters for disks, SPF (scattering phase functions), 
+              This application lets you generate simulated protoplanetary dusk debri
+              disk images by adjusting parameters for disks, SPF (scattering phase functions), 
               PSF (point spread functions), and more. Experiment with different values 
               to see how they affect the final rendered image.
             </p>
             <ol className="list-decimal pl-5 mb-4 space-y-2">
               <li>
                 Use the left sidebar to modify parameters (e.g., <em>alpha_in</em>, 
-                <em>alpha_out</em>, etc.).
+                <em> alpha_out</em>, etc.).
               </li>
               <li>
                 Click the &ldquo;Generate Image&rdquo; button to render a new image.
@@ -77,7 +77,7 @@ const InfoButton = () => {
             </ol>
             <p className="mb-4">
               You can fine-tune each parameter to simulate a wide range of 
-              astrophysical scenarios. Explore, experiment, and see how your 
+              disk systems. Explore, experiment, and see how your 
               changes influence the final image!
             </p>
             <button
