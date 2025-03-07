@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from "framer-motion";
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
+import Image from "next/image";
 
 interface MainContentProps {
   imageSrc: string;
@@ -88,7 +88,7 @@ const MainContent = ({
                 }}
                 zoomMargin={40}
               >
-                <img 
+                <Image 
                   src={imageSrc} 
                   alt="Generated space image" 
                   className="w-full h-full object-contain cursor-zoom-in"
