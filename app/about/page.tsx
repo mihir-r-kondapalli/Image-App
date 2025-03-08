@@ -28,10 +28,11 @@ export default function AboutPage() {
               </div>
               <div className="bg-[#2E1A47]/60 backdrop-blur-sm p-4 rounded-lg">
                 <h3 className="text-xl font-semibold mb-2">Purpose</h3>
-                <p className="text-gray-300">This project accelerates runtime by about 40x for JWST images and 64x for
-                  static PSF images, increases accuracy, and allows for concrete differentiation of model generation.
-                  This allows researchers to expand the amount of parameters they can fit thereby increasing their knowledge
-                  of these incredibly important phenomena. 
+                <p className="text-gray-300">This project accelerates runtime by about 186x for static PSF images and 40x
+                  for JWST images, increases accuracy, and allows for concrete differentiation of model generation.
+                  This accelerates disk forward modeling which allows previous tasks that took hours to days to be completed in
+                  less than 30 minutes! This boost in productivity enables astronomers to discover more details about planetary
+                  systems and uncover new connections to the processes shaping our own planet.
                 </p>
               </div>
             </div>
