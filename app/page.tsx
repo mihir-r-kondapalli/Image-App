@@ -14,7 +14,7 @@ const defaultParams: ParamsType = {
   alpha_in: 5,
   alpha_out: -5,
   sma: 50,
-  e: 0.0,
+  eccentricity: 0.0,
   inclination: 0,
   position_angle: 0,
   x_center: 250.0,

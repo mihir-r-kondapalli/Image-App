@@ -47,7 +47,7 @@ const LeftSidebar = ({ params, onChange, onSave, paramSetName, onParamSetNameCha
 
       <div className="bg-[#251338] rounded-lg p-4 space-y-6">
         <Section title="Disk Parameters" forceExpanded={allSectionsExpanded}>
-          {["alpha_in", "alpha_out", "sma", "e", "inclination", "position_angle", "x_center", "y_center"].map((key) => (
+          {["alpha_in", "alpha_out", "sma", "eccentricity", "inclination", "position_angle", "x_center", "y_center"].map((key) => (
             <InputField 
               key={key} 
               name={key}

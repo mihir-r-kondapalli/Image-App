@@ -2,7 +2,7 @@ export type ParamsType = {
   alpha_in: number;
   alpha_out: number;
   sma: number;
-  e: number;
+  eccentricity: number;
   inclination: number;
   position_angle: number;
   x_center: number;
