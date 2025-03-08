@@ -18,10 +18,6 @@ const LeftSidebar = ({ params, onChange, onSave, paramSetName, onParamSetNameCha
     setAllSectionsExpanded(!allSectionsExpanded);
   };
 
-  const nameMap: { [key: string]: string } = {
-    e: "eccentricity",
-  };
-
   return (
     <aside className="
       absolute
@@ -54,7 +50,7 @@ const LeftSidebar = ({ params, onChange, onSave, paramSetName, onParamSetNameCha
           {["alpha_in", "alpha_out", "sma", "e", "inclination", "position_angle", "x_center", "y_center"].map((key) => (
             <InputField 
               key={key} 
-              name={nameMap[key] || key}
+              name={key}
               value={params[key as keyof ParamsType]} 
               onChange={onChange} 
               dark
