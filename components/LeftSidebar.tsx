@@ -90,7 +90,19 @@ const LeftSidebar = ({ params, onChange, onSave, paramSetName, onParamSetNameCha
         </Section>
 
         <Section title="Parallactic Angles (JWST only)" forceExpanded={allSectionsExpanded}>
-          {["parang1", "parang2", "parang3", "parang4"].map((key) => (
+          {["parang1", "parang2"].map((key) => (
+            <InputField 
+              key={key} 
+              name={key} 
+              value={params[key as keyof ParamsType]} 
+              onChange={onChange}
+              dark
+            />
+          ))}
+        </Section>
+
+        <Section title="Noise Level" forceExpanded={allSectionsExpanded}>
+          {["noise"].map((key) => (
             <InputField 
               key={key} 
               name={key} 

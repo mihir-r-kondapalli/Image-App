@@ -25,8 +25,7 @@ const defaultParams: ParamsType = {
   psf: "NONE",
   parang1: 0.0,
   parang2: 90.0,
-  parang3: 180.0,
-  parang4: 270.0,
+  noise: 0.0
 };
 
 export default function Page() {

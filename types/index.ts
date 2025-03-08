@@ -13,6 +13,5 @@ export type ParamsType = {
   psf: string;
   parang1: number;
   parang2: number;
-  parang3: number;
-  parang4: number;
+  noise: number;
 };
