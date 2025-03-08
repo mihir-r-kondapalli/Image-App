@@ -24,7 +24,7 @@ const defaultParams: ParamsType = {
   weight: 0.5,
   psf: "NONE",
   parang1: 0.0,
-  parang2: 90.0,
+  parang2: 5.0,
   noise: 0.0
 };
 
